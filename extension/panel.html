@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #f6f4f0;
+            --panel: #ffffff;
+            --text: #1a1a1a;
+            --muted: #5f5f5f;
+            --border: #e2ded6;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --ga: #1a73e8;
+            --fb: #1877f2;
+            --tt: #000000;
+            --li: #0a66c2;
+            --pin: #bd081c;
+            --x: #111111;
+            --ms: #00a1f1;
+            --other: #6c4cff;
+        }
+
+        body {
+            font-family: "Space Grotesk", "Segoe UI", sans-serif;
+            padding: 12px;
+            background: radial-gradient(1200px 600px at 10% -10%, #fff7e6 0%, transparent 70%),
+            radial-gradient(900px 500px at 90% 0%, #e9f2ff 0%, transparent 65%),
+            var(--bg);
+            color: var(--text);
+        }
+
+        h2 {
+            margin: 0 0 6px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .summary {
+            display: grid;
+            gap: 8px;
+        }
+
+        .summary-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .summary-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-size: 12px;
+            border: 1px solid var(--border);
+            background: #fafafa;
+            color: var(--text);
+        }
+
+        .chip .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--other);
+        }
+
+        button {
+            background: #111;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .list {
+            margin-top: 10px;
+            display: grid;
+            gap: 8px;
+        }
+
+        details.log {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        details.log summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 8px 10px;
+            display: grid;
+            grid-template-columns: 110px 1fr auto;
+            gap: 8px;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        details.log summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .time {
+            font-variant-numeric: tabular-nums;
+            color: var(--muted);
+        }
+
+        .event {
+            font-weight: 600;
+        }
+
+        .provider {
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .log-body {
+            border-top: 1px dashed var(--border);
+            padding: 8px 10px;
+            background: #fcfcfc;
+            white-space: pre-wrap;
+            font-family: "SFMono-Regular", "Consolas", monospace;
+            font-size: 11px;
+        }
+
+        .provider-ga4 {
+            border-left: 4px solid var(--ga);
+        }
+
+        .provider-facebook {
+            border-left: 4px solid var(--fb);
+        }
+
+        .provider-tiktok {
+            border-left: 4px solid var(--tt);
+        }
+
+        .provider-linkedin {
+            border-left: 4px solid var(--li);
+        }
+
+        .provider-pinterest {
+            border-left: 4px solid var(--pin);
+        }
+
+        .provider-x {
+            border-left: 4px solid var(--x);
+        }
+
+        .provider-microsoft {
+            border-left: 4px solid var(--ms);
+        }
+
+        .provider-other {
+            border-left: 4px solid var(--other);
+        }
+
+        .provider-pill-ga4 { background: color-mix(in srgb, var(--ga) 12%, #fff); }
+        .provider-pill-facebook { background: color-mix(in srgb, var(--fb) 12%, #fff); }
+        .provider-pill-tiktok { background: color-mix(in srgb, var(--tt) 10%, #fff); }
+        .provider-pill-linkedin { background: color-mix(in srgb, var(--li) 12%, #fff); }
+        .provider-pill-pinterest { background: color-mix(in srgb, var(--pin) 12%, #fff); }
+        .provider-pill-x { background: color-mix(in srgb, var(--x) 8%, #fff); }
+        .provider-pill-microsoft { background: color-mix(in srgb, var(--ms) 12%, #fff); }
+        .provider-pill-other { background: color-mix(in srgb, var(--other) 12%, #fff); }
+    </style>
+
+</head>
+
+<body>
+
+<h2>GA4 TRCKR</h2>
+
+<div class="toolbar">
+    <button id="clearLog">CLEAR LOGS</button>
+</div>
+
+<div class="panel summary">
+    <div class="summary-title">Detected Measurement Codes</div>
+    <div id="summary" class="summary-row"></div>
+</div>
+
+<div id="out" class="list"></div>
+
+<script src="panel.js"></script>
+
+</body>
+</html>
