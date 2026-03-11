@@ -1,10 +1,9 @@
 name: Zip and Release
 
 on:
-  workflow_dispatch:
   push:
-    tags:
-      - "v*"
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -14,18 +13,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Create zip
         run: |
           cd extension
           zip -r ../release.zip .
 
-      - name: Create GitHub Release
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Create release for commit SHA
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: sha-${{ github.sha }}
+          name: Build ${{ github.sha }}
+          prerelease: true
           files: release.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
