@@ -17,12 +17,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Create zip from folder
+      - name: Create zip
         run: |
           cd extension
           zip -r ../release.zip .
 
-      - name: Create GitHub Release and upload zip
+      - name: Create GitHub Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
