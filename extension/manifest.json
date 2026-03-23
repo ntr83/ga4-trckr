@@ -3,9 +3,7 @@
   "name": "GA4 DevTools Trckr",
   "version": "1.0.0",
   "devtools_page": "devtools.html",
-  "permissions": [
-    "webRequest"
-  ],
+  "permissions": [],
   "host_permissions": [
     "https://www.google-analytics.com/*",
     "https://analytics.google.com/*",
